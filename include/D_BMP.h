@@ -6,4 +6,5 @@
    void bmpInit();
    void GetBMPevent();
 
+
 #endif

@@ -7,6 +7,15 @@
 //This value stores the Device ID, each school and device will have a different device ID accordingly
 #define DeviceID  "00000"
 
+#define BLE_DeviceName "GammaGo_00000" //The Bluetooth name of the device
+#define SERVICE_UUID "0000ffe0-0000-1000-8000-00805f9b34fb" //This is the UUID for the Bluetooth connection 
+#define CHARACTERISTIC_UUID "0000ffe1-0000-1000-8000-00805f9b34fb" //This is the UUID for characteristic
+//Please do not change the UUID, as it will affect the connection for the BLE and the webpage
+//I found this UUID on the Gamma-Go webpage code
+
+
+//You can generate the UUID here: https://www.uuidgenerator.net/
+
 //This part defines the different Pin layouts of the device -----------------------------------------------------//
 
 #define BATTERY_PIN  13;  // Pin for measuring battery voltage

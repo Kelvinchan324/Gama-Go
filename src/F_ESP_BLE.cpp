@@ -1,9 +1,24 @@
 // This .cpp file contains the functions for BLE communication and creating the output string
 #include<Arduino.h>
+#include <BLEDevice.h>
+#include <BLEServer.h>
+#include <BLEUtils.h>
+#include <BLE2902.h>
 
 #include "0_Config.h"
 #include "1_Global.h"
 
+// BLECharacteristic GammaGoDataCharacteristics ("b336141f-4ba0-4d8f-82ec-769e4142634e",BLECharacteristic::PROPERTY_NOTIFY);
+// BLEDescriptor GammaGoDataDescriptor(BLEUUID((uint16_t)0x2902));
+//----------------------------------------------------------------------------------------------------------------//
+
+BLEServer* pServer = NULL;
+BLECharacteristic*pCharacteristic = NULL;
+
+bool DeviceConnected = false;
+bool OldDeviceConnected = false;
+
+//Valuables related to creating the data string------------------------------------------------------------------//
 char DataString [94]; //Set an array of char (String) for the final output string
 char FormatString [11]; //Create a string (array of char) which helps formatting the Data String, 
 //It is used for storing the adjusted data strings and then input to the main DataString
@@ -17,10 +32,58 @@ int Adjusted_RH;
 int Adjusted_Pressure;
 long int Adjusted_ALT;
 
-//----------------------------------------------------------------------------------------------
-//default string format:%00000&015743,17062023&+25109090,+121806312&0019,0001844,+2970,0740,10077&000801,0,1,00,00%91%
-//----------------------------------------------------------------------------------------------
+//Setup callbacks onConnect and onDisconnect
+class MyServerCallbacks : public BLEServerCallbacks{
+    void onConnect (BLEServer* pServer)
+    {
+        DeviceConnected = true;
+        Serial.println("[Test] Device connected");
+    };
 
+    void onDisconnect (BLEServer* pServer)
+    {
+        DeviceConnected = false;
+        Serial.println("[Test] Device disconnected");
+    }
+
+};
+
+void BLE_init ()
+{   
+    //Set up BLE DEvice ---------------------------------------------------------------------//
+    BLEDevice::init(BLE_DeviceName); //Create the BLE Device
+    //Set up BLE Server --------------------------------------------------------------------//
+    pServer = BLEDevice::createServer(); //Set the BLE device as server
+
+    pServer->setCallbacks(new MyServerCallbacks()); //Assign a callback function
+    //Set up BLE Service ------------------------------------------------------------------//
+    BLEService * pService = pServer->createService(SERVICE_UUID);
+    //Set up BLE Characteristic-----------------------------------------------------------//
+    pCharacteristic = pService -> createCharacteristic(
+        CHARACTERISTIC_UUID,
+        BLECharacteristic::PROPERTY_READ   |
+        BLECharacteristic::PROPERTY_WRITE  |
+        BLECharacteristic::PROPERTY_NOTIFY |
+        BLECharacteristic::PROPERTY_INDICATE
+    );
+    //Set up BLE Descriptor ------------------------------------------------------------------//
+    pCharacteristic ->addDescriptor (new BLE2902());
+
+    //Start the service---- ------------------------------------------------------------------//
+    pService -> start();
+
+    //Start advertising
+    BLEAdvertising *pAdvertising = BLEDevice::getAdvertising();
+    pAdvertising -> addServiceUUID(SERVICE_UUID);
+    pAdvertising -> setScanResponse(false);
+    pAdvertising -> setMinPreferred(0x0);  // set value to 0x00 to not advertise this parameter
+    BLEDevice::startAdvertising();
+    Serial.println("Waiting a client connection to notify...");
+}
+
+//----------------------------------------------------------------------------------------------
+//default string format:%00000&015743,17062023&+25109090,+121806312&0019,0001844,+2970,0740,10077&000801,0,1,00,00%89%
+//----------------------------------------------------------------------------------------------
 void OutputDataString ()
 {
     strcpy(DataString,"%");
@@ -94,10 +157,31 @@ void OutputDataString ()
     Adjusted_ALT = long(gpsAlt * 10);
     sprintf (FormatString,"%06ld",Adjusted_ALT);
     strcat(DataString,FormatString);
-    strcat(DataString,",0,1,00,00%94%");
+    strcat(DataString,",0,1,00,00%89%");
     
     //First line of code adjusts the altitude value from the GPS module
-    //Then the adjusted value is input into the data in the form of 100110,0,1,00,00%91%
-    //where 00%91% determines the end of the string
+    //Then the adjusted value is input into the data in the form of 100110,0,1,00,00%89%
+    //where 00%91% determines the end of the string (also the check sum of the string)
 
+}
+
+void BLE_SendDataString()
+{
+    if (DeviceConnected) {
+        pCharacteristic->setValue(DataString);
+        pCharacteristic->notify();
+        delay(3); // bluetooth stack will go into congestion, if too many packets are sent, in 6 hours test i was able to go as low as 3ms
+    }
+    // disconnecting
+    if (!DeviceConnected && OldDeviceConnected) {
+        delay(500); // give the bluetooth stack the chance to get things ready
+        pServer->startAdvertising(); // restart advertising
+        Serial.println("start advertising");
+        OldDeviceConnected = DeviceConnected;
+    }
+    // connecting
+    if (DeviceConnected && !OldDeviceConnected) {
+        // do stuff here on connecting
+        OldDeviceConnected = DeviceConnected;
+}
 }

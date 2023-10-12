@@ -28,7 +28,8 @@ float stnT[12],stnRH[12],stnP[12];
 void setup()
 {
   Serial.begin(9600);
-  //BLE init()
+
+  BLE_init();
   SD_init();
 
   DHTinit();
@@ -79,6 +80,8 @@ void loop()
 
     OutputDataString();
     SD_SendData();
+    BLE_SendDataString();
+
     Serial.println(DataString);
   
     

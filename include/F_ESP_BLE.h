@@ -3,8 +3,8 @@
 #ifndef F_BLE_H
 #define F_BLE_H
 
-
+    void BLE_init();
     void OutputDataString();
-
+    void BLE_SendDataString();
 
 #endif
