@@ -37,13 +37,11 @@ class MyServerCallbacks : public BLEServerCallbacks{
     void onConnect (BLEServer* pServer)
     {
         DeviceConnected = true;
-        Serial.println("[Test] Device connected");
     };
 
     void onDisconnect (BLEServer* pServer)
     {
         DeviceConnected = false;
-        Serial.println("[Test] Device disconnected");
     }
 
 };
@@ -78,7 +76,7 @@ void BLE_init ()
     pAdvertising -> setScanResponse(false);
     pAdvertising -> setMinPreferred(0x0);  // set value to 0x00 to not advertise this parameter
     BLEDevice::startAdvertising();
-    Serial.println("Waiting a client connection to notify...");
+    //Serial.println("Waiting a client connection to notify...");
 }
 
 //----------------------------------------------------------------------------------------------
@@ -176,7 +174,7 @@ void BLE_SendDataString()
     if (!DeviceConnected && OldDeviceConnected) {
         delay(500); // give the bluetooth stack the chance to get things ready
         pServer->startAdvertising(); // restart advertising
-        Serial.println("start advertising");
+        //Serial.println("start advertising");
         OldDeviceConnected = DeviceConnected;
     }
     // connecting

@@ -28,7 +28,6 @@ float stnT[12],stnRH[12],stnP[12];
 void setup()
 {
   Serial.begin(9600);
-
   BLE_init();
   SD_init();
 
@@ -42,6 +41,7 @@ void setup()
   drawDHTgraph();
   CreateBasicData ();
   ShowID();
+  Buttons_init();
 
   
 
@@ -59,10 +59,10 @@ void loop()
   // The Cycle is looped every one minute and hence 5 seconds for one stage
   // This 5 seconds stage is used to display the data on the display page in the old device
   getGPS();
+  ButtonTouchEvent();
 
   if (CurrentCycle != prevMin) //This if condition is passed every 5 seconds, as CurrentCycle changes every 5 secs 
   {
-    //getGPS();
     GetDoseRate();
 
     plotDHTgraph();
@@ -80,11 +80,7 @@ void loop()
 
     OutputDataString();
     SD_SendData();
-    BLE_SendDataString();
-
-    Serial.println(DataString);
-  
-    
+    //Serial.println(DataString);
 
     prevMin = CurrentCycle; // This condition will no longer be true after 5 secs and passes the if condition again
   }

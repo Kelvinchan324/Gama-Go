@@ -25,7 +25,7 @@ void drawDHTgraph()
   gr.createGraph(270, 150, tft.color565(5, 5, 5));
 
   // x scale units is from 0 to 100, y scale units is -50 to 50
-  gr.setGraphScale(0.0, 100.0, 0.0, 100.0);         //*****Changed 21-9-2023 (-50.0 to 0.0, 50.0 to 100.0)*****
+  gr.setGraphScale(0.0, 100.0, 0.0, 100.0); 
 
   // X grid starts at 0 with lines every 10 x-scale units
   // Y grid starts at 0 with lines every 25 y-scale units
