@@ -217,9 +217,10 @@ void ButtonTouchEvent ()
     uint16_t t_x, t_y;
     if (tft.getTouch(&t_x, &t_y))
     {
-
-        Serial.print(String(t_x));
-        Serial.print(String(t_y));
+        Serial.println("touch X: "); 
+        Serial.println(String(t_x));
+        Serial.println("touch Y: ");
+        Serial.println(String(t_y));
 
         // Check if upper buttons were pressed
         int buttonX = (tft.width() - 3 * buttonWidth - 2 * buttonMargin) / 2;
