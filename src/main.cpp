@@ -15,6 +15,8 @@
 #include "A1_DisplayInitPage.h"
 #include "A2_DisplayMainPage.h"
 #include "A2_DHTgraph.h"
+#include "A2_BMPgraph.h"
+#include "A2_DoseGraph.h"
 #include "B_GPS.h"
 #include "C_DHT.h"
 #include "D_BMP.h"
@@ -38,7 +40,7 @@ void setup()
   
   TFT_init();
 
-  drawDHTgraph();
+  drawDoseGraph();
   CreateBasicData ();
   ShowID();
   Buttons_init();
@@ -65,7 +67,7 @@ void loop()
   {
     GetDoseRate();
 
-    plotDHTgraph();
+    plotDoseGraph();
 
     GetDHTevent();
     GetBMPevent();
@@ -79,6 +81,7 @@ void loop()
     ShowBasicData();
 
     OutputDataString();
+    BLE_SendDataString();
     SD_SendData();
     //Serial.println(DataString);
 
