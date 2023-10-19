@@ -1,8 +1,8 @@
 //Define Pin numbers here
 //This Header file must only contain #define variables which are Pin configurations 
 
-# ifndef PinConfig_H_
-# define PincConfig_H_
+# ifndef Config_H_
+# define Config_H_
 
 //This value stores the Device ID, each school and device will have a different device ID accordingly
 #define DeviceID  "00000"

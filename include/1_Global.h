@@ -16,7 +16,7 @@ extern float stnT[12],stnRH[12],stnP[12];
 extern TFT_eSPI tft;
 extern TFT_eSprite HKOsprite;
 extern TFT_eSprite background;
-extern TFT_eSprite textSprite;
+
 //*******************************************************************************************************************//
 //**********************************A2_DisplayMainPage***************************************************************//
 
