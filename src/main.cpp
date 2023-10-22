@@ -40,7 +40,7 @@ void setup()
   
   TFT_init();
 
-  drawDoseGraph();
+  drawDHTgraph();
   CreateBasicData ();
   ShowID();
   Buttons_init();
@@ -67,7 +67,7 @@ void loop()
   {
     GetDoseRate();
 
-    plotDoseGraph();
+    plotDHTgraph();
 
     GetDHTevent();
     GetBMPevent();
