@@ -13,7 +13,7 @@ GraphWidget DHTgraph = GraphWidget(&tft);    // Graph widget
 TraceWidget tr1 = TraceWidget(&DHTgraph);    // Graph trace 1
 TraceWidget tr2 = TraceWidget(&DHTgraph);    // Graph trace 2
 
-int originX = 30;
+int originX = 18;
 int originY = 140;
 
 void drawDHTgraph() 
@@ -22,8 +22,8 @@ void drawDHTgraph()
   tft.setRotation(2);
   tft.fillScreen(TFT_BLACK);
 
-  // Graph area is 270 pixels wide, 150 high, dark grey background
-  DHTgraph.createGraph(270, 150, tft.color565(5, 5, 5));
+  // Graph area is 220 pixels wide, 110 high, dark grey background
+  DHTgraph.createGraph(217, 80, tft.color565(5, 5, 5));
 
   // x scale units is from 0 to 100, y scale units is -50 to 50
   DHTgraph.setGraphScale(0.0, 100.0, 0.0, 100.0); 

@@ -8,10 +8,10 @@
   void CreateBasicData ();
   void ShowBasicData ();
   void DisplayGPSdata ();
-  void drawButton();
-  void handleButtonPress();
-  void Buttons_init();
-  void ButtonTouchEvent ();
+
+  void initButtons ();
+  void Buttons_Loop ();
+  void touch_calibrate ();
 
 
 #endif

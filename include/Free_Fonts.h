@@ -39,11 +39,9 @@
 //
 //      tft.setFreeFont(NULL); // Set font to GLCD
 
-
 #ifdef LOAD_GFXFF // Only include the fonts if LOAD_GFXFF is defined in User_Setup.h
 
 // Use these when printing or drawing text in GLCD and high rendering speed fonts
-// Call up the font using tft.setTextFont()
 #define GFXFF 1
 #define GLCD  0
 #define FONT2 2
@@ -52,7 +50,7 @@
 #define FONT7 7
 #define FONT8 8
 
-// Use the following when calling tft.setFreeFont()
+// Use the following when calling setFont()
 //
 // Reserved for GLCD font  // FF0
 //
@@ -207,7 +205,7 @@
 #define sFF13 "Mono bold oblique 9"
 #define sFF14 "Mono bold oblique 12"
 #define sFF15 "Mono bold oblique 18"
-#define sFF16 "Mono bold oblique 24" // Full text line is too big for 480 pixel wide screen
+#define sFF16 "Mono bold obl. 24" // Full text line is too big for 480 pixel wide screen
 
 #define sFF17 "Sans 9"
 #define sFF18 "Sans 12"

@@ -30,6 +30,8 @@ float stnT[12],stnRH[12],stnP[12];
 void setup()
 {
   Serial.begin(9600);
+  touch_calibrate();
+
   BLE_init();
   SD_init();
 
@@ -43,7 +45,8 @@ void setup()
   drawDHTgraph();
   CreateBasicData ();
   ShowID();
-  Buttons_init();
+  initButtons();
+  
 
   
 
@@ -56,37 +59,44 @@ void setup()
 
 void loop()
 {
+
+  Serial.println ("Start of loop");
   CurrentCycle = int((millis()%60000)/5000); 
   // This "CurrentCycle" shows the current cycle of the device, There are 12 stages (0-11) in each cycle
   // The Cycle is looped every one minute and hence 5 seconds for one stage
   // This 5 seconds stage is used to display the data on the display page in the old device
-  getGPS();
-  ButtonTouchEvent();
+  //----------------------------------------------------------------------------------------------------------//
+  //Conditions not performed only every 5 seconds
+  
+  Buttons_Loop();
+  Serial.println ("But loop");
+
 
   if (CurrentCycle != prevMin) //This if condition is passed every 5 seconds, as CurrentCycle changes every 5 secs 
   {
     GetDoseRate();
 
-    plotDHTgraph();
-
     GetDHTevent();
     GetBMPevent();
 
-    ShowBasicData();
-    PrintGPSstring();
-    DisplayGPSdata();
-    
-  
-    plotDHTgraph();
-    ShowBasicData();
+    getGPS(); //This functions takes around 1 second to run, so put it in once per 5 seconds (Checling GPS)
 
-    OutputDataString();
-    BLE_SendDataString();
-    SD_SendData();
+    Buttons_Loop();
+    Serial.println ("But in loop");
+
+    //ShowBasicData();
+    //PrintGPSstring();
+    //DisplayGPSdata();
+  
+    //plotDHTgraph();
+
+    // OutputDataString();
+    // BLE_SendDataString();
+    // SD_SendData();
     //Serial.println(DataString);
 
     prevMin = CurrentCycle; // This condition will no longer be true after 5 secs and passes the if condition again
   }
-  
+  Serial.println ("End of loop");
   
 }

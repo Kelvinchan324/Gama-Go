@@ -18,8 +18,8 @@ void drawBMPgraph()
   tft.setRotation(2);
   tft.fillScreen(TFT_BLACK);
 
-  // Graph area is 270 pixels wide, 150 high, dark grey background
-  BMPgraph.createGraph(270, 150, tft.color565(5, 5, 5));
+  // Graph area is 217 pixels wide, 110 high, dark grey background
+  BMPgraph.createGraph(217, 110, tft.color565(5, 5, 5));
 
   // x scale units is from 0 to 100, y scale units is -50 to 50
   BMPgraph.setGraphScale(0.0, 100.0, 900.0, 1025.0); 

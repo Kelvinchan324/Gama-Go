@@ -12,7 +12,7 @@
 
 TFT_eSPI tft = TFT_eSPI(); //Invoke custom library
 
-TFT_eSprite HKOsprite = TFT_eSprite (&tft);
+//TFT_eSprite HKOsprite = TFT_eSprite (&tft);
 
 int BuzToneArray [] = {1,3,2,4,0,4,2,3,1,0}; //This array stores the different sounds when init. the device
 int LoadBarDelayTime = (10/2)*100; //How long each loading bar element is divided (Init page loading for 10sec)
@@ -25,19 +25,19 @@ void  TFT_init ()
 
   // Displaying HKO logo on the TFT display with sprites
   tft.setSwapBytes (true); // This line of code makes the images normal
-  HKOsprite.createSprite(250,202);  // Creating a Sprite for the HKO logo
+  // HKOsprite.createSprite(250,202);  // Creating a Sprite for the HKO logo
 
-  HKOsprite.setSwapBytes (true);
-  HKOsprite.pushImage(0,0,250,202,HKOlogo); // Push the HKO logo image into the Sprite
-  HKOsprite.pushSprite (38,40,TFT_BLACK); // Push the HKO logo Sprite to the background Sprite
+  // HKOsprite.setSwapBytes (true);
+  // HKOsprite.pushImage(0,0,250,202,HKOlogo); // Push the HKO logo image into the Sprite
+  // HKOsprite.pushSprite (0,10,TFT_BLACK); // Push the HKO logo Sprite to the background Sprite
   
    //------------------------------------------------------
   
-  tft.setCursor(35,350);
+  tft.setCursor(8,280);
   tft.setTextColor (TFT_BLACK);
   tft.setTextSize(2);
   tft.setTextFont(GLCD);
-  tft.print("Device Initializing...");
+  tft.print("Device Initializing");
 
   //Change back to original size for device
   tft.setTextSize(1);
@@ -56,7 +56,7 @@ void  TFT_init ()
     delay(LoadBarDelayTime); //Start 0.5s
   }
   //------------------------------------------------------------------------------------------------------//
-  HKOsprite.deleteSprite();
+  //HKOsprite.deleteSprite();
 
   tft.fillScreen (BLACK);
 
