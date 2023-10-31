@@ -31,8 +31,12 @@
 #define DHTTYPE    DHT22    // Setup type of DHT sensor used
 //---------------------------------------------------------------------------------------------------------------//
 //Battery indicator setup----------------------------------------------------------------------------------------//
-const float ADC_Calibration_Constant = 0.00365; //Calibration constant for ADC reading to voltage
+const float ADC_CALIBRATION_CONSTANT = 0.00365; //Calibration constant for ADC reading to voltage
 const float R1 = 68000.0;
+const float R2 = 100000.0;
+
+const float MIN_BATTERY_VOLTAGE = 6.0;
+const float MAX_BATTERY_VOLTAGE = 8.4;
 //Other basic information for the device here -------------------------------------------------------------------//
 #define ConFactor 0.0057   //This variable defines the CPM to dose rate conversion factor
 

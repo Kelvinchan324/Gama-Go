@@ -25,7 +25,7 @@ void  TFT_init ()
 
   // Displaying HKO logo on the TFT display with sprites
   tft.setSwapBytes (true); // This line of code makes the images normal
-  // HKOsprite.createSprite(250,202);  // Creating a Sprite for the HKO logo
+  //HKOsprite.createSprite(250,202);  // Creating a Sprite for the HKO logo
 
   // HKOsprite.setSwapBytes (true);
   // HKOsprite.pushImage(0,0,250,202,HKOlogo); // Push the HKO logo image into the Sprite
@@ -48,10 +48,10 @@ void  TFT_init ()
   int BuzArrayLength = sizeof(BuzToneArray) / sizeof(BuzToneArray[0]);
   for (int i = 0; i < (BuzArrayLength+10); i++)
   {
-    // if(i<10) //In this if condition the device init. with a rising tone then a falling tone
-    // {
-    //   tone (BUZ,(BuzToneArray[i]*1000));
-    // }
+    if(i<10) //In this if condition the device init. with a rising tone then a falling tone
+    {
+      tone (BUZ,(BuzToneArray[i]*1000));
+    }
     tft.fillSmoothRoundRect ((1 + i*LoadBarX),LoadBarY,LoadBarW,LoadBarH,LoadBarR,WHITE,BLACK);
     delay(LoadBarDelayTime); //Start 0.5s
   }
