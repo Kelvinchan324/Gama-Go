@@ -52,6 +52,7 @@ ButtonWidget Next_Button = ButtonWidget(&tft);
 ButtonWidget *buttons [] = {&DHT_Button, &BMP_Button, &Dose_Button, &Prev_Button, &Next_Button};;
 uint8_t buttonCount = sizeof(buttons) / sizeof(buttons[0]);
 
+uint16_t t_x = 9999, t_y = 9999; //To store the touch coordinates
 
 void ShowID ()
 {
@@ -169,6 +170,9 @@ void Dose_Button_pressAction ()
         Dose_Button.drawSmoothButton(!Dose_Button.getState(), 3, TFT_BLACK, "Dose");
         Dose_Button.setPressTime(millis());
         Serial.println ("Dose pressed");
+        Serial.println (t_x);
+        Serial.println (t_y);
+
     }
 }
 
@@ -185,6 +189,8 @@ void DHT_Button_pressAction ()
         DHT_Button.drawSmoothButton(!DHT_Button.getState(), 3, TFT_BLACK, "DHT");
         DHT_Button.setPressTime(millis());
         Serial.println ("DHT pressed");
+        Serial.println (t_x);
+        Serial.println (t_y);
     }
 }
 
@@ -201,6 +207,8 @@ void BMP_Button_pressAction ()
         BMP_Button.drawSmoothButton(!BMP_Button.getState(), 3, TFT_BLACK, "BMP");
         BMP_Button.setPressTime(millis());
         Serial.println ("BMP pressed");
+        Serial.println (t_x);
+        Serial.println (t_y);
     }
 }
 
@@ -217,6 +225,8 @@ void Prev_Button_pressAction ()
         Prev_Button.drawSmoothButton(!Prev_Button.getState(), 3, TFT_BLACK, "Prev.");
         Prev_Button.setPressTime(millis());
         Serial.println ("Prev pressed");
+        Serial.println (t_x);
+        Serial.println (t_y);
     }
 }
 
@@ -232,7 +242,9 @@ void Next_Button_pressAction ()
     {
         Next_Button.drawSmoothButton(!Next_Button.getState(), 3, TFT_BLACK, "Next");
         Next_Button.setPressTime(millis());
-          Serial.println ("Next pressed");
+        Serial.println ("Next pressed");
+        Serial.println (t_x);
+        Serial.println (t_y);
     }
 }
 
@@ -280,16 +292,13 @@ void initButtons ()
 
 void Buttons_Loop ()
 {
-    
-    uint16_t t_x = 9999, t_y = 9999; //To store the touch coordinates
-
-    
+   
         bool pressed = tft.getTouch (&t_x, &t_y);
         
 
         for (uint8_t b = 0;b < buttonCount; b++)
         {
-            Serial.print (b);
+            //Serial.print (b);
             if (pressed)
             {
                 if (buttons[b]->contains(t_x,t_y))
@@ -306,7 +315,7 @@ void Buttons_Loop ()
             }
         }
 }
-
+/*
 void touch_calibrate()
 {
   uint16_t calData[5];
@@ -372,3 +381,4 @@ void touch_calibrate()
     }
   }
 }
+*/

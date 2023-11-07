@@ -1,5 +1,5 @@
 // This .cpp file contains the functions for Battery level indication
-
+#include <Arduino.h>
 #include "0_Config.h"
 
 float getBatteryVoltage() {

@@ -40,6 +40,4 @@ const float MAX_BATTERY_VOLTAGE = 8.4;
 //Other basic information for the device here -------------------------------------------------------------------//
 #define ConFactor 0.0057   //This variable defines the CPM to dose rate conversion factor
 
-
-
-#endif
+# endif
