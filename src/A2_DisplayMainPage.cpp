@@ -294,7 +294,7 @@ void Buttons_Loop ()
 {
    
         bool pressed = tft.getTouch (&t_x, &t_y);
-        
+        Serial.println ("[old]t_x:"+ String(t_x) + ", t_y:"+ String(t_y));
 
         for (uint8_t b = 0;b < buttonCount; b++)
         {
