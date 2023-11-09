@@ -30,7 +30,6 @@ float stnT[12],stnRH[12],stnP[12];
 void setup()
 {
   Serial.begin(9600);
-  //touch_calibrate();
 
   BLE_init();
   SD_init();
@@ -42,6 +41,8 @@ void setup()
   
   TFT_init();
 
+  touch_calibrate();
+  
   drawDHTgraph();
   CreateBasicData ();
   ShowID();

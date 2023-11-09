@@ -170,8 +170,6 @@ void Dose_Button_pressAction ()
         Dose_Button.drawSmoothButton(!Dose_Button.getState(), 3, TFT_BLACK, "Dose");
         Dose_Button.setPressTime(millis());
         Serial.println ("Dose pressed");
-        Serial.println (t_x);
-        Serial.println (t_y);
 
     }
 }
@@ -189,8 +187,6 @@ void DHT_Button_pressAction ()
         DHT_Button.drawSmoothButton(!DHT_Button.getState(), 3, TFT_BLACK, "DHT");
         DHT_Button.setPressTime(millis());
         Serial.println ("DHT pressed");
-        Serial.println (t_x);
-        Serial.println (t_y);
     }
 }
 
@@ -207,8 +203,6 @@ void BMP_Button_pressAction ()
         BMP_Button.drawSmoothButton(!BMP_Button.getState(), 3, TFT_BLACK, "BMP");
         BMP_Button.setPressTime(millis());
         Serial.println ("BMP pressed");
-        Serial.println (t_x);
-        Serial.println (t_y);
     }
 }
 
@@ -225,8 +219,6 @@ void Prev_Button_pressAction ()
         Prev_Button.drawSmoothButton(!Prev_Button.getState(), 3, TFT_BLACK, "Prev.");
         Prev_Button.setPressTime(millis());
         Serial.println ("Prev pressed");
-        Serial.println (t_x);
-        Serial.println (t_y);
     }
 }
 
@@ -243,8 +235,6 @@ void Next_Button_pressAction ()
         Next_Button.drawSmoothButton(!Next_Button.getState(), 3, TFT_BLACK, "Next");
         Next_Button.setPressTime(millis());
         Serial.println ("Next pressed");
-        Serial.println (t_x);
-        Serial.println (t_y);
     }
 }
 
@@ -284,10 +274,10 @@ void initButtons ()
     Prev_Button.drawSmoothButton(false, 3, TFT_BLACK);
 
     x = 120;
-    Prev_Button.initButtonUL (x,y,PageButton_W, PageButton_H,TFT_WHITE,TFT_CYAN,TFT_BLACK," Next", 1);
-    Prev_Button.setPressAction(Next_Button_pressAction);
+    Next_Button.initButtonUL (x,y,PageButton_W, PageButton_H,TFT_WHITE,TFT_CYAN,TFT_BLACK," Next", 1);
+    Next_Button.setPressAction(Next_Button_pressAction);
     //Prev_Button.setReleaseAction(Next_Button_releaseAction);
-    Prev_Button.drawSmoothButton(false, 3, TFT_BLACK);
+    Next_Button.drawSmoothButton(false, 3, TFT_BLACK);
 }
 
 void Buttons_Loop ()
@@ -315,7 +305,7 @@ void Buttons_Loop ()
             }
         }
 }
-/*
+
 void touch_calibrate()
 {
   uint16_t calData[5];
@@ -372,6 +362,7 @@ void touch_calibrate()
 
     tft.setTextColor(TFT_GREEN, TFT_BLACK);
     tft.println("Calibration complete!");
+    tft.setTextColor(TFT_WHITE);
 
     // store data
     File f = LittleFS.open(CALIBRATION_FILE, "w");
@@ -381,4 +372,3 @@ void touch_calibrate()
     }
   }
 }
-*/
