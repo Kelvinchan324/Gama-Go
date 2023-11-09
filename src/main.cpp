@@ -166,11 +166,11 @@ void touch_calibrate()
   }
 }
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(9600);
   tft.begin();
   tft.setRotation(0);
   tft.fillScreen(TFT_BLACK);
-  tft.setFreeFont(FF18);
+  // tft.setFreeFont(FF18);
 
   // Calibrate the touch screen and retrieve the scaling factors
   touch_calibrate();
@@ -180,6 +180,8 @@ void setup() {
 void loop() {
   static uint32_t scanTime = millis();
   uint16_t t_x = 9999, t_y = 9999; // To store the touch coordinates
+  Serial.println ("x"  + t_x);
+  Serial.println ("y"  + t_y);
 
   // Scan keys every 50ms at most
   if (millis() - scanTime >= 50) {
