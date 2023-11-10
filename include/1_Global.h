@@ -33,6 +33,15 @@ extern TFT_eSprite RadiationGraphSprite;
 extern TFT_eSprite DHTGraphSprite;
 extern TFT_eSprite BMPGraphSprite;
 
+extern bool DosePress;
+extern bool DHTPress;
+extern bool BMPPress;
+// extern ButtonWidget DHT_Button;
+// extern ButtonWidget BMP_Button;
+// extern ButtonWidget Dose_Button;
+// extern ButtonWidget Prev_Button;
+// extern ButtonWidget Next_Button;
+
 //--------------------------------------------------------------------------------------------------------------------//
 //*****************************************A2_DHTgraph***************************************************************//
 extern int originX;

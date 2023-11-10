@@ -28,9 +28,10 @@ void GetDHTevent()
   DHTtemp = event.relative_humidity;
 
 
-
-  stnRH[CurrentCycle] = isnan(DHThum) ? -99.99 : DHThum;
-  stnT[CurrentCycle] = isnan(DHTtemp) ? -99.99 : DHTtemp;
+  DHThum = isnan(DHThum) ? -99.99 : DHThum;
+  DHTtemp = isnan(DHTtemp) ? -99.99 : DHTtemp;
+  // stnRH[CurrentCycle] = isnan(DHThum) ? -99.99 : DHThum;
+  // stnT[CurrentCycle] = isnan(DHTtemp) ? -99.99 : DHTtemp;
   /***************   Arguement of "stnT[CurrentCycle] = isnan(DHTtemp) ? -99.99 : DHTtemp;"  *******************************
       stnRH[CurrentCycle]: This refers to an element in the stnRH array at index CurrentCycle. 
         It is assigning a value to this particular element.

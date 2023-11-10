@@ -83,9 +83,33 @@ void loop()
     ShowBasicData();
     PrintGPSstring();
     DisplayGPSdata();
-  
-    plotDHTgraph();
 
+
+    Serial.println (DosePress);
+    Serial.println (DHTPress);
+    Serial.println (BMPPress);
+    
+    if (DosePress = true)
+    {
+      plotDoseGraph();
+      Serial.println ("case 1");
+    }
+    else if (DHTPress = true)
+    {
+      plotDHTgraph();
+      Serial.println ("case 2");
+    }
+    else if (BMPPress = true)
+    {
+      plotBMPgraph();
+      Serial.println ("case 3");
+    }
+    else
+    {
+      plotDHTgraph();
+      Serial.println ("case 4");
+    }
+    
     OutputDataString();
     BLE_SendDataString();
     SD_SendData();

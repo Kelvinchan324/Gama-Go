@@ -51,7 +51,11 @@ ButtonWidget Next_Button = ButtonWidget(&tft);
 //This is more useful where large numbers of buttons are employed
 ButtonWidget *buttons [] = {&DHT_Button, &BMP_Button, &Dose_Button, &Prev_Button, &Next_Button};;
 uint8_t buttonCount = sizeof(buttons) / sizeof(buttons[0]);
+bool DosePress; 
+bool DHTPress;
+bool BMPPress;
 
+static uint32_t waitTime = 1000;
 uint16_t t_x = 9999, t_y = 9999; //To store the touch coordinates
 
 void ShowID ()
@@ -74,10 +78,10 @@ void CreateBasicData ()
     DoseSprite.createSprite (60,28);  // The Dose rate display
     DoseSprite.setTextColor(TFT_WHITE,TFT_BLACK);
 
-    TempSprite.createSprite (65,28);  // The Temperature display
+    TempSprite.createSprite (65,30);  // The Temperature display
     TempSprite.setTextColor(TFT_WHITE,TFT_BLACK);
 
-    RHSprite.createSprite (65,28);  // The Humidity display
+    RHSprite.createSprite (65,30);  // The Humidity display
     RHSprite.setTextColor(TFT_WHITE,TFT_BLACK);
 
     AtmSprite.createSprite (90,21);  //The pressure display
@@ -169,8 +173,15 @@ void Dose_Button_pressAction ()
     {
         Dose_Button.drawSmoothButton(!Dose_Button.getState(), 3, TFT_BLACK, "Dose");
         Dose_Button.setPressTime(millis());
-        Serial.println ("Dose pressed");
 
+        DHT_Button.drawSmoothButton(false);
+        BMP_Button.drawSmoothButton(false);
+
+        DosePress = true;
+        DHTPress = false;
+        BMPPress = false;
+
+        //Serial.println ("Dose pressed");
     }
 }
 
@@ -186,7 +197,15 @@ void DHT_Button_pressAction ()
     {
         DHT_Button.drawSmoothButton(!DHT_Button.getState(), 3, TFT_BLACK, "DHT");
         DHT_Button.setPressTime(millis());
-        Serial.println ("DHT pressed");
+
+        Dose_Button.drawSmoothButton(false);
+        BMP_Button.drawSmoothButton(false);
+
+        DosePress = false;
+        DHTPress = true;
+        BMPPress = false;
+
+        //Serial.println ("DHT pressed");
     }
 }
 
@@ -202,7 +221,15 @@ void BMP_Button_pressAction ()
     {
         BMP_Button.drawSmoothButton(!BMP_Button.getState(), 3, TFT_BLACK, "BMP");
         BMP_Button.setPressTime(millis());
-        Serial.println ("BMP pressed");
+
+        Dose_Button.drawSmoothButton(false);
+        DHT_Button.drawSmoothButton(false);
+
+        DosePress = false;
+        DHTPress = false;
+        BMPPress = true;
+
+        //Serial.println ("BMP pressed");
     }
 }
 
@@ -224,7 +251,12 @@ void Prev_Button_pressAction ()
 
 void Prev_Button_releaseAction ()
 {
-
+  if (Prev_Button .justReleased()) {
+    Serial.println("Previous button just released");
+    Prev_Button.drawSmoothButton(false);
+    Prev_Button.setReleaseTime(millis());
+    waitTime = 10000;
+  }
 }
 //-----------------------------------------------------------------------------------------------------------//
 //Next Button press and release------------------------------------------------------------------------------//
@@ -240,7 +272,12 @@ void Next_Button_pressAction ()
 
 void Next_Button_releaseAction ()
 {
-
+  if (Next_Button.justReleased()) {
+    Serial.println("Next button just released");
+    Next_Button.drawSmoothButton(false);
+    Next_Button.setReleaseTime(millis());
+    waitTime = 10000;
+  }
 }
 //-----------------------------------------------------------------------------------------------------------//
 
@@ -270,40 +307,40 @@ void initButtons ()
     y = 270;
     Prev_Button.initButtonUL (x,y,PageButton_W, PageButton_H,TFT_WHITE,TFT_CYAN,TFT_BLACK," Prev.", 1);
     Prev_Button.setPressAction(Prev_Button_pressAction);
-    //Prev_Button.setReleaseAction(Prev_Button_releaseAction);
+    Prev_Button.setReleaseAction(Prev_Button_releaseAction);
     Prev_Button.drawSmoothButton(false, 3, TFT_BLACK);
 
     x = 120;
     Next_Button.initButtonUL (x,y,PageButton_W, PageButton_H,TFT_WHITE,TFT_CYAN,TFT_BLACK," Next", 1);
     Next_Button.setPressAction(Next_Button_pressAction);
-    //Prev_Button.setReleaseAction(Next_Button_releaseAction);
+    Next_Button.setReleaseAction(Next_Button_releaseAction);
     Next_Button.drawSmoothButton(false, 3, TFT_BLACK);
 }
 
 void Buttons_Loop ()
 {
    
-        bool pressed = tft.getTouch (&t_x, &t_y);
-        Serial.println ("[old]t_x:"+ String(t_x) + ", t_y:"+ String(t_y));
+  bool pressed = tft.getTouch (&t_x, &t_y);
+  //Serial.println ("t_x:"+ String(t_x) + ", t_y:"+ String(t_y));
 
-        for (uint8_t b = 0;b < buttonCount; b++)
+  for (uint8_t b = 0;b < buttonCount; b++)
+    {
+      //Serial.print (b);
+      if (pressed)
         {
-            //Serial.print (b);
-            if (pressed)
+          if (buttons[b]->contains(t_x,t_y))
             {
-                if (buttons[b]->contains(t_x,t_y))
-                {
-                    buttons[b]->press(true);
-                    buttons[b]->pressAction();
-                }
-            }
-
-            else
-            {
-                buttons[b]->press(false);
-                buttons[b]->releaseAction();
+              buttons[b]->press(true);
+              buttons[b]->pressAction();
             }
         }
+
+      else
+        {
+          buttons[b]->press(false);
+          buttons[b]->releaseAction();
+        }
+    }
 }
 
 void touch_calibrate()
